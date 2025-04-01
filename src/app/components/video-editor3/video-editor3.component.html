@@ -1,0 +1,23 @@
+<div class="video-editor-container">
+  <h1>Video Editor Tool</h1>
+
+  <div class="file-input">
+    <label for="videoInput">Select Videos:</label>
+    <input type="file" id="videoInput" (change)="onVideoSelect($event)" multiple />
+  </div>
+
+  <div class="actions">
+    <button (click)="mergeVideos()">Merge Videos</button>
+  </div>
+
+  <div class="trim-section">
+    <h2>Trim Video</h2>
+    <label for="startTime">Start Time (seconds):</label>
+    <input type="number" [(ngModel)]="startTime" id="startTime" />
+
+    <label for="endTime">End Time (seconds):</label>
+    <input type="number" [(ngModel)]="endTime" id="endTime" />
+
+    <button (click)="trimVideo()">Trim Video</button>
+  </div>
+</div>

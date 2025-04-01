@@ -19,6 +19,7 @@ import { VideoEditorComponent } from './components/video-editor/video-editor.com
 import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { VideoEditor2Component } from './components/video-editor2/video-editor2.component';
+import { VideoEditor3Component } from './components/video-editor3/video-editor3.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +27,8 @@ import { VideoEditor2Component } from './components/video-editor2/video-editor2.
     SidebarComponent,
     MainContentComponent,
     VideoEditorComponent,
-    VideoEditor2Component
+    VideoEditor2Component,
+    VideoEditor3Component
     
   ],
   imports: [

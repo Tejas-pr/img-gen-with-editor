@@ -24,10 +24,13 @@ export class VideoEditor2Component {
   }
 
   async loadFFmpeg() {
-    const workerURL = 'assets/worker/worker.js';
+    // const workerURL = './assets/worker/worker.js';
+    // const workerURL = '../../../assets/worker/worker.js';
     try {
       // await this.ffmpeg.load();
-      await this.ffmpeg.load({ workerURL });
+      await this.ffmpeg.load({
+        workerURL: 'assets/worker/worker.js'
+      });
       this.isFFmpegLoaded = true;
       console.log('FFmpeg loaded successfully');
     } catch (error) {
@@ -35,6 +38,7 @@ export class VideoEditor2Component {
       this.message = 'Failed to load FFmpeg.';
     }
   }
+
 
   onFileSelected(event: any) {
     console.log(event);
@@ -48,12 +52,17 @@ export class VideoEditor2Component {
   }
 
   async trimVideo(startTime: number, endTime: number) {
+    console.log("trim is called!")
+    console.log(this.selectedVideoFile)
+    console.log(this.isFFmpegLoaded)
     if (!this.selectedVideoFile || !this.isFFmpegLoaded) {
+      console.log("Please select a video and wait for FFmpeg to load. from trimVideo");
       this.message = 'Please select a video and wait for FFmpeg to load.';
       return;
     }
 
     try {
+      console.log("Trimming video...");
       const inputFileName = 'input.mp4';
       const outputFileName = 'trimmed.mp4';
 
@@ -72,6 +81,7 @@ export class VideoEditor2Component {
       this.trimmedVideoUrl = URL.createObjectURL(new Blob([trimmedFileData]));
 
       this.message = 'Video trimmed successfully!';
+      console.log("Video trimmed successfully!");
     } catch (error) {
       console.error('Error trimming video:', error);
       this.message = 'Error trimming video.';
@@ -88,6 +98,7 @@ export class VideoEditor2Component {
 
   async mergeVideos() {
     if (!this.isFFmpegLoaded) {
+      console.log("Please wait for FFmpeg to load before merging videos.");
       this.message = 'Please wait for FFmpeg to load before merging videos.';
       return;
     }
