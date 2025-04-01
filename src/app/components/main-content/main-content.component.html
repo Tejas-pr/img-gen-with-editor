@@ -1,0 +1,58 @@
+<div class="main-content">
+    <h2>Inspiration</h2>
+    
+    <!-- Prompt Section -->
+    <div class="main-content-1">
+        <div class="prompt-container">
+            <input type="text" placeholder="Type your prompt here..." class="prompt-input">
+            <button class="send-btn" (click)="generateVideos()" [disabled]="isLoading">
+                <mat-icon>send</mat-icon>
+            </button>
+        </div>
+
+        <!-- Buttons -->
+        <div class="btn-group">
+            <mat-button-toggle-group multiple appearance="standard">
+                <button value="16:9">16:9</button>
+                <button value="480p">480p</button>
+                <button value="1080p">1080p</button>
+            </mat-button-toggle-group>            
+        </div>
+    </div>
+
+    <!-- Generate Button Centered -->
+    <!-- <div class="generate-btn-container">
+        <button mat-raised-button class="generate-btn" (click)="generateVideos()" [disabled]="isLoading">
+            <div class="loader" *ngIf="isLoading"></div>
+            <span *ngIf="!isLoading">Generate</span>
+        </button>        
+    </div> -->
+
+    <div class="story-board">
+        <h2 class="story-board-title">Story board</h2>
+        <button mat-raised-button class="new-project-btn" (click)="openVideoEditor()">Editor</button>
+        <button mat-raised-button class="new-project-btn" (click)="openVideoEditor2()">Editor2</button>
+    </div>
+    
+    <!-- Generated Content Section -->
+    <div class="main-content-2">
+        <div *ngIf="isLoading" class="loader-container">
+            <div class="loader"></div>
+        </div>
+        <!-- <div class="story-board">
+            <button mat-raised-button class="new-project-btn" (click)="openVideoEditor()">Editor</button>
+        </div> -->
+        <div class="video-scroll-container">
+            <mat-card *ngFor="let video of videos; let i = index" class="video-card">
+                <h3>{{ video.name }}</h3>
+                <video controls>
+                    <source [src]="video.src" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-actions">
+                    <mat-icon class="action-icon" (click)="deleteVideo(i)">delete</mat-icon>
+                </div>
+            </mat-card>      
+        </div>
+    </div>
+</div>
