@@ -89,3 +89,27 @@ video {
   font-size: 22px;
   color: #333;
 }
+
+.processed-video a{
+  text-decoration: none;
+  color: #4f46e5;
+  font-weight: bold;
+}
+
+.download-link-btn {
+  border-radius: 10px;
+  border: 1px solid #4f46e5;
+  color: #4f46e5;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  background-color: white;
+  transition: background-color 0.3s ease;
+}
+
+.download-link-btn:hover {
+  color: white !important;
+  cursor: pointer;
+}

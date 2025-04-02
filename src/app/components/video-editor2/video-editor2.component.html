@@ -10,7 +10,7 @@
   <!-- Video Preview -->
   <div *ngIf="selectedVideoFile" class="video-preview">
     <h3>Video Preview</h3>
-    <video #videoPlayer [src]="trimmedVideoUrl || videoPlayer?.src" controls></video>
+    <video #videoPlayer [src]="selectedVideoUrl" controls></video>
   </div>
 
   <!-- Trim Video Controls -->
@@ -45,7 +45,9 @@
   <div *ngIf="trimmedVideoUrl || mergedVideoUrl" class="processed-video">
     <h3>Processed Video</h3>
     <video #processedVideoPlayer [src]="mergedVideoUrl || trimmedVideoUrl" controls></video>
-    <a [href]="mergedVideoUrl || trimmedVideoUrl" download="output.mp4">Download Video</a>
+    <div class="download-link-btn">
+      <a [href]="mergedVideoUrl || trimmedVideoUrl" download="output.mp4">Download Video</a>
+    </div>
   </div>
 
   <!-- Status Message -->

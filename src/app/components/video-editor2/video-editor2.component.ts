@@ -12,6 +12,7 @@ export class VideoEditor2Component implements OnInit {
   mergedVideoUrl: string | null = null;
   selectedVideoFile: File | null = null;
   selectedVideos: File[] = [];
+  selectedVideoUrl: string | null = null;
   message: string = '';
 
   constructor() {}
@@ -49,6 +50,13 @@ export class VideoEditor2Component implements OnInit {
     console.log(event);
     if (event.target.files.length > 0) {
       this.selectedVideoFile = event.target.files[0];
+      console.log("the selectedVideoFile",this.selectedVideoFile);
+      if (this.selectedVideoFile) {
+        const fileURL = URL.createObjectURL(this.selectedVideoFile);
+        this.selectedVideoUrl = fileURL;
+      } else {
+        console.error('No video file selected.');
+      }
     }
   }
 
@@ -59,6 +67,8 @@ export class VideoEditor2Component implements OnInit {
   }
 
   trimVideo(startTime: number, endTime: number) {
+    console.log("trim called")
+    console.log(this.selectedVideoFile);
     if (!this.selectedVideoFile || !this.isFFmpegLoaded) {
       console.log('Please select a video and wait for FFmpeg to load.');
       this.message = 'Please select a video and wait for FFmpeg to load.';
