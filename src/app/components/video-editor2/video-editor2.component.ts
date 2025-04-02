@@ -1,136 +1,98 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FFmpeg } from '@ffmpeg/ffmpeg';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-video-editor',
   templateUrl: './video-editor2.component.html',
   styleUrls: ['./video-editor2.component.css']
 })
-export class VideoEditor2Component {
-  @ViewChild('videoPlayer') videoPlayer!: ElementRef;
-  @ViewChild('processedVideoPlayer') processedVideoPlayer!: ElementRef;
-  
-  ffmpeg: FFmpeg;
-  isFFmpegLoaded: boolean = false;
-  selectedVideoFile: File | null = null;
+export class VideoEditor2Component implements OnInit {
+  private worker!: Worker;
+  isFFmpegLoaded = false;
   trimmedVideoUrl: string | null = null;
   mergedVideoUrl: string | null = null;
-  message: string = '';
+  selectedVideoFile: File | null = null;
   selectedVideos: File[] = [];
+  message: string = '';
 
-  constructor() {
-    this.ffmpeg = new FFmpeg();
-    this.loadFFmpeg();
-  }
+  constructor() {}
 
-  async loadFFmpeg() {
-    // const workerURL = './assets/worker/worker.js';
-    // const workerURL = '../../../assets/worker/worker.js';
-    try {
-      // await this.ffmpeg.load();
-      await this.ffmpeg.load({
-        workerURL: 'assets/worker/worker.js'
-      });
-      this.isFFmpegLoaded = true;
-      console.log('FFmpeg loaded successfully');
-    } catch (error) {
-      console.error('Error loading FFmpeg:', error);
-      this.message = 'Failed to load FFmpeg.';
+  ngOnInit() {
+    if (typeof Worker !== 'undefined') {
+      this.worker = new Worker(new URL('../../app.worker', import.meta.url), { type: 'module' });
+
+      this.worker.onmessage = (event) => {
+        if (event.data.status === 'loaded') {
+          this.isFFmpegLoaded = true;
+          console.log('FFmpeg loaded successfully in worker');
+        } else if (event.data.status === 'trimmed') {
+          this.trimmedVideoUrl = URL.createObjectURL(new Blob([event.data.file]));
+          this.message = 'Video trimmed successfully!';
+          console.log('Video trimmed successfully');
+        } else if (event.data.status === 'merged') {
+          this.mergedVideoUrl = URL.createObjectURL(new Blob([event.data.file]));
+          this.message = 'Videos merged successfully!';
+          console.log('Videos merged successfully');
+        } else if (event.data.status === 'error') {
+          console.error('Worker error:', event.data.message);
+          this.message = 'Error processing video.';
+        }
+      };
+
+      // Load FFmpeg in worker
+      this.worker.postMessage({ action: 'loadFFmpeg' });
+    } else {
+      console.error('Web Workers are not supported in this browser.');
     }
   }
-
 
   onFileSelected(event: any) {
     console.log(event);
     if (event.target.files.length > 0) {
       this.selectedVideoFile = event.target.files[0];
-      if (this.selectedVideoFile) {
-        this.trimmedVideoUrl = URL.createObjectURL(this.selectedVideoFile);
-        console.log('Trimmed video URL:', this.trimmedVideoUrl);
-      }
-    }
-  }
-
-  async trimVideo(startTime: number, endTime: number) {
-    console.log("trim is called!")
-    console.log(this.selectedVideoFile)
-    console.log(this.isFFmpegLoaded)
-    if (!this.selectedVideoFile || !this.isFFmpegLoaded) {
-      console.log("Please select a video and wait for FFmpeg to load. from trimVideo");
-      this.message = 'Please select a video and wait for FFmpeg to load.';
-      return;
-    }
-
-    try {
-      console.log("Trimming video...");
-      const inputFileName = 'input.mp4';
-      const outputFileName = 'trimmed.mp4';
-
-      const fileData = new Uint8Array(await this.selectedVideoFile.arrayBuffer());
-      await this.ffmpeg.writeFile(inputFileName, fileData);
-
-      await this.ffmpeg.exec([
-        '-i', inputFileName,
-        '-ss', startTime.toString(),
-        '-to', endTime.toString(),
-        '-c', 'copy',
-        outputFileName
-      ]);
-
-      const trimmedFileData = await this.ffmpeg.readFile(outputFileName);
-      this.trimmedVideoUrl = URL.createObjectURL(new Blob([trimmedFileData]));
-
-      this.message = 'Video trimmed successfully!';
-      console.log("Video trimmed successfully!");
-    } catch (error) {
-      console.error('Error trimming video:', error);
-      this.message = 'Error trimming video.';
     }
   }
 
   onMultipleFilesSelected(event: any) {
-    console.log(event);
     if (event.target.files.length > 0) {
       this.selectedVideos = Array.from(event.target.files);
-      console.log('Selected videos:', this.selectedVideos);
     }
   }
 
-  async mergeVideos() {
+  trimVideo(startTime: number, endTime: number) {
+    if (!this.selectedVideoFile || !this.isFFmpegLoaded) {
+      console.log('Please select a video and wait for FFmpeg to load.');
+      this.message = 'Please select a video and wait for FFmpeg to load.';
+      return;
+    }
+
+    this.worker.postMessage({
+      action: 'trimVideo',
+      data: {
+        file: this.selectedVideoFile,
+        startTime,
+        endTime
+      }
+    });
+  }
+
+  mergeVideos() {
+    console.log("selectedVideos", this.selectedVideos);
+    console.log("merge called")
     if (!this.isFFmpegLoaded) {
-      console.log("Please wait for FFmpeg to load before merging videos.");
       this.message = 'Please wait for FFmpeg to load before merging videos.';
       return;
     }
-  
+
     if (this.selectedVideos.length < 2) {
       this.message = 'Please select at least two videos.';
       return;
     }
-  
-    try {
-      // Prepare video file list for ffmpeg concat
-      const fileList = await Promise.all(this.selectedVideos.map(async (file, index) => {
-        const fileName = `video${index}.mp4`;
-        const fileData = new Uint8Array(await file.arrayBuffer());
-        await this.ffmpeg.writeFile(fileName, fileData);
-        return `file '${fileName}'\n`;
-      }));
-  
-      // Write the list to an input file
-      await this.ffmpeg.writeFile('input.txt', new TextEncoder().encode(fileList.join('')));
-  
-      // Execute ffmpeg to merge videos
-      await this.ffmpeg.exec(['-f', 'concat', '-safe', '0', '-i', 'input.txt', '-c', 'copy', 'merged.mp4']);
-  
-      // Read and create URL for the merged video
-      const mergedFileData = await this.ffmpeg.readFile('merged.mp4');
-      this.mergedVideoUrl = URL.createObjectURL(new Blob([mergedFileData]));
-  
-      this.message = 'Videos merged successfully!';
-    } catch (error) {
-      console.error('Error merging videos:', error);
-      this.message = 'Error merging videos.';
-    }
-  }  
+
+    this.worker.postMessage({
+      action: 'mergeVideos',
+      data: {
+        files: this.selectedVideos
+      }
+    });
+  }
 }

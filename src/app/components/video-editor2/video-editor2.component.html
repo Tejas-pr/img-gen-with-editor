@@ -8,7 +8,7 @@
   </div>
 
   <!-- Video Preview -->
-  <div *ngIf="selectedVideoFile">
+  <div *ngIf="selectedVideoFile" class="video-preview">
     <h3>Video Preview</h3>
     <video #videoPlayer [src]="trimmedVideoUrl || videoPlayer?.src" controls></video>
   </div>
@@ -26,7 +26,7 @@
   </div>
 
   <!-- Merge Videos -->
-  <div class="merge-controls" *ngIf="!isFFmpegLoaded">
+  <div *ngIf="isFFmpegLoaded" class="merge-controls">
     <h3>Merge Videos</h3>
     <label>Select multiple videos:</label>
     <input type="file" multiple (change)="onMultipleFilesSelected($event)" accept="video/*" />
