@@ -15,7 +15,6 @@ import { MainContentComponent } from './components/main-content/main-content.com
 import {MatCardModule} from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import { VideoEditorComponent } from './components/video-editor/video-editor.component';
 import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { VideoEditor2Component } from './components/video-editor2/video-editor2.component';
@@ -26,7 +25,6 @@ import { VideoEditor3Component } from './components/video-editor3/video-editor3.
     NavbarComponent,
     SidebarComponent,
     MainContentComponent,
-    VideoEditorComponent,
     VideoEditor2Component,
     VideoEditor3Component
     

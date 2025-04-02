@@ -41,11 +41,7 @@ export class MainContentComponent {
   }
 
   constructor(private router: Router) {}
-
-  openVideoEditor() {
-    this.router.navigate(['/editor/']);
-  }
-
+  
   openVideoEditor2() {
     this.router.navigate(['/editor2/']);
   }
