@@ -18,7 +18,6 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { VideoEditor2Component } from './components/video-editor2/video-editor2.component';
-import { VideoEditor3Component } from './components/video-editor3/video-editor3.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,8 +25,6 @@ import { VideoEditor3Component } from './components/video-editor3/video-editor3.
     SidebarComponent,
     MainContentComponent,
     VideoEditor2Component,
-    VideoEditor3Component
-    
   ],
   imports: [
     BrowserModule,

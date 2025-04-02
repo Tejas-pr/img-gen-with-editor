@@ -108,6 +108,9 @@ input[type="number"] {
 
 /* Processed Video */
 .processed-video {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background: white;
   padding: 15px;
   border-radius: 8px;
@@ -116,8 +119,7 @@ input[type="number"] {
 }
 
 .processed-video video {
-  width: 100%;
-  max-height: 300px;
+  width: 70%;
   border-radius: 8px;
 }
 
@@ -125,7 +127,6 @@ input[type="number"] {
   display: inline-block;
   padding: 10px 20px;
   background-color: #28a745;
-  color: white !important;
   border-radius: 5px;
   text-decoration: none;
   font-size: 16px;
@@ -134,6 +135,11 @@ input[type="number"] {
 
 .download-link-btn:hover {
   background-color: #218838;
+}
+
+.download-link-btn a {
+  text-decoration: none;
+  color: white !important;
 }
 
 .selected-video-list {
@@ -149,4 +155,14 @@ input[type="number"] {
 .selected-video-list video {
   width: 200px;
   border-radius: 5px;
+  margin: 10px;
+  overflow-x: auto;
+}
+
+.message {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
 }
