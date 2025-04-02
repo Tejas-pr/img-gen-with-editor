@@ -15,6 +15,70 @@ export class VideoEditor2Component implements OnInit {
   selectedVideoUrl: string | null = null;
   message: string = '';
 
+  videos: string[] = [
+    'assets/video1.mp4',
+    'assets/video2.mp4',
+    'assets/video3.mp4',
+    'assets/video4.mp4',
+    'assets/video5.mp4',
+    'assets/video6.mp4',
+    'assets/video7.mp4',
+    'assets/video9.mp4',
+    'assets/video10.mp4'
+  ];
+
+  getVideoUrl(video: string | File): string {
+    if (typeof video === 'string') {
+      return video;
+    } else {
+      return URL.createObjectURL(video);
+    }
+  }
+  async trimVideoBtn(video: string) {
+    try {
+      console.log("Selected video for trimming:", video);
+      
+      // Fetch the video file from the URL
+      const response = await fetch(video);
+      const blob = await response.blob();
+  
+      // Convert the Blob into a File object
+      const file = new File([blob], video.split('/').pop() || 'video.mp4', { type: 'video/mp4' });
+  
+      // Assign the file to selectedVideoFile
+      this.selectedVideoFile = file;
+      this.selectedVideoUrl = video; // Update the preview URL
+  
+      console.log("Selected video file:", this.selectedVideoFile);
+    } catch (error) {
+      console.error("Error loading video file:", error);
+    }
+  }
+  
+  /** Select a video to preview */
+  selectVideo(videoUrl: string) {
+    this.selectedVideoUrl = videoUrl;
+  }
+
+  /** Add a video to the merge queue */
+  async addToQueue(videoUrl: string) {
+    if (this.selectedVideos.some(video => video.name === videoUrl.split('/').pop())) {
+      console.log('Video already in queue:', videoUrl);
+      return; // Prevent duplicate selections
+    }
+  
+    try {
+      const response = await fetch(videoUrl);
+      const blob = await response.blob();
+      const file = new File([blob], videoUrl.split('/').pop() || 'video.mp4', { type: 'video/mp4' });
+  
+      this.selectedVideos.push(file);
+      console.log('Added to merge queue:', file);
+    } catch (error) {
+      console.error('Error fetching video:', error);
+    }
+  }  
+
   constructor() {}
 
   ngOnInit() {

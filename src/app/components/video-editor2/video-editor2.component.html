@@ -1,52 +1,63 @@
 <div class="container">
-  <h2>Angular Video Editor</h2>
+  <h2>Video Editor</h2>
 
-  <!-- Video Selection -->
-  <div class="video-selection">
-    <label for="videoUpload">Select a video:</label>
-    <input type="file" id="videoUpload" (change)="onFileSelected($event)" accept="video/*" />
+  <h2>Available Videos</h2>
+  <div class="video-list">
+    <div *ngFor="let video of videos" class="video-item">
+      <video [src]="video" controls></video>
+      <button (click)="addToQueue(video)">Add to Merge</button>
+      <button (click)="trimVideoBtn(video)">Trim</button>
+    </div>
   </div>
 
-  <!-- Video Preview -->
-  <div *ngIf="selectedVideoFile" class="video-preview">
-    <h3>Video Preview</h3>
-    <video #videoPlayer [src]="selectedVideoUrl" controls></video>
-  </div>
-
-  <!-- Trim Video Controls -->
-  <div *ngIf="selectedVideoFile" class="trim-controls">
+  <!-- Trim Video Controls (only shown when a video is selected) -->
+  <div *ngIf="selectedVideoUrl" class="trim-controls">
     <h3>Trim Video</h3>
-    <label>Start Time (sec):</label>
-    <input type="number" #startTime min="0" />
+    <video [src]="selectedVideoUrl" controls></video>
 
-    <label>End Time (sec):</label>
-    <input type="number" #endTime min="0" />
-
-    <button (click)="trimVideo(+startTime.value, +endTime.value)">Trim Video</button>
-  </div>
-
-  <!-- Merge Videos -->
-  <div *ngIf="isFFmpegLoaded" class="merge-controls">
-    <h3>Merge Videos</h3>
-    <label>Select multiple videos:</label>
-    <input type="file" multiple (change)="onMultipleFilesSelected($event)" accept="video/*" />
-    
-    <div *ngIf="selectedVideos.length > 0" class="selected-videos">
-      <h4>Selected Videos:</h4>
-      <ul>
-        <li *ngFor="let video of selectedVideos">{{ video.name }}</li>
-      </ul>
+    <div class="trim-inputs-container">
+      <label>Start Time (sec):</label>
+      <input type="number" #startTime min="0" />
+  
+      <label>End Time (sec):</label>
+      <input type="number" #endTime min="0" />
     </div>
 
-    <button (click)="mergeVideos()">Merge Videos</button>
+    <button (click)="trimVideo(+startTime.value, +endTime.value)">
+      Trim Video
+    </button>
+  </div>
+
+  <!-- Selected Videos for Merging -->
+  <div class="merging-queue">
+    <h3>Merging Queue</h3>
+    <div *ngIf="selectedVideos.length > 0" class="selected-video-list">
+      <div class="video-container">
+        <video
+          *ngFor="let video of selectedVideos"
+          [src]="getVideoUrl(video)"
+          controls
+        ></video>
+      </div>
+    </div>
+  
+    <button *ngIf="selectedVideos.length > 1" (click)="mergeVideos()">
+      Merge Videos
+    </button>
   </div>
 
   <!-- Processed Video Preview -->
   <div *ngIf="trimmedVideoUrl || mergedVideoUrl" class="processed-video">
     <h3>Processed Video</h3>
-    <video #processedVideoPlayer [src]="mergedVideoUrl || trimmedVideoUrl" controls></video>
+    <video
+      #processedVideoPlayer
+      [src]="mergedVideoUrl || trimmedVideoUrl"
+      controls
+    ></video>
     <div class="download-link-btn">
-      <a [href]="mergedVideoUrl || trimmedVideoUrl" download="output.mp4">Download Video</a>
+      <a [href]="mergedVideoUrl || trimmedVideoUrl" download="output.mp4"
+        >Download Video</a
+      >
     </div>
   </div>
 
