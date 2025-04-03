@@ -88,15 +88,14 @@ h2, h3 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 15px;
   text-align: center;
   width: 100%;
   border-radius: 8px;
 }
 
 .trim-controls video {
-  width: 500px;
-  height: 280px;
+  width: 100%;
+  height: 350px;
   border-radius: 5px;
   object-fit: cover;
   background: black;
@@ -236,8 +235,8 @@ input[type="number"] {
 }
 
 .processed-video video {
-  width: 90%;
-  height: 250px;
+  width: 98%;
+  height: 178px;
   border-radius: 8px;
   object-fit: cover;
   background: black;

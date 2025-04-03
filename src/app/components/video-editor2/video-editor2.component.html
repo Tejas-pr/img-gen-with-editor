@@ -78,14 +78,17 @@
       <div class="processed-video">
         <p>Processed Video</p>
         <video
+          *ngIf="trimmedVideoUrl || mergedVideoUrl"
           #processedVideoPlayer
           [src]="mergedVideoUrl || trimmedVideoUrl"
           controls
         ></video>
-      </div>
-
-      <!-- Status Message -->
+              <!-- Status Message -->
       <p class="message">{{ message }}</p>
+      <button *ngIf="trimmedVideoUrl || mergedVideoUrl" mat-button (click)="reloadPage()" class="download-btn">
+        New Project
+      </button>
+      </div>
     </div>
   </div>
 </div>

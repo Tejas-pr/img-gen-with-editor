@@ -169,4 +169,8 @@ export class VideoEditor2Component implements OnInit {
       }
     });
   }
+
+  reloadPage() {
+    window.location.reload();
+  }  
 }
