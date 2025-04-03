@@ -23,7 +23,7 @@ self.onmessage = async (event) => {
       const { file, startTime, endTime } = data;
       const fileData = new Uint8Array(await file.arrayBuffer());
 
-      await ffmpeg.writeFile('input.mp4', fileData);
+      await ffmpeg.writeFile('input.mp4', fileData);  
 
       await ffmpeg.exec([
         '-i', 'input.mp4',
