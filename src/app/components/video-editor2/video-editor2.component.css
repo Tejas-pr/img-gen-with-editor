@@ -208,6 +208,7 @@ input[type="number"] {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
   gap: 10px;
   width: 100%;
+  margin-top: 10px;
 }
 
 .selected-video-list video {
