@@ -1,38 +1,134 @@
-/* General Container Styling */
+/* General Layout */
 .container {
-  max-width: 1000px;
-  margin: 20px auto;
-  padding: 20px;
-  font-family: 'Poppins', sans-serif;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 85vh;
+  background: #121212;
+  color: white;
 }
 
-/* Title Styling */
+/* Sidebar Sections */
+.left-side-container, .right-side-container, .right-right-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+}
+
+.left-side-container {
+  width: 20%;
+  /* height: 65%; */
+  height: 90%;
+  background: #1e1e1e;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.left-side-container p {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.right-side-container {
+  width: 55%;
+  background: #2b2b2b;
+}
+
+.right-right-container {
+  width: 25%;
+  padding: 10px;
+  background: #1e1e1e;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  background: #181818;
+  color: white;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.download-btn {
+  background: #3f51b5;
+  color: white;
+  border-radius: 20px;
+  padding: 5px 15px;
+  font-weight: 500;
+}
+
+.download-btn a {
+  text-decoration: none;
+  color: white;
+}
+
+.download-btn:hover {
+  background: #334296;
+}
+
+/* Titles */
 h2, h3 {
   text-align: center;
-  color: #333;
-  margin-bottom: 15px;
+  color: #fff;
 }
 
-.trim-inputs-container {
+/* Trim Controls */
+.trim-controls {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-  margin-top: 15px;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  text-align: center;
+  width: 100%;
+  border-radius: 8px;
 }
 
-/* Video List Styling */
+.trim-controls video {
+  width: 500px;
+  height: 280px;
+  border-radius: 5px;
+  object-fit: cover;
+  background: black;
+}
+
+.trim-controls button {
+  width: 50%;
+}
+
+input[type="number"] {
+  width: 48%;
+  padding: 8px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 1px solid #444;
+  background: #333;
+  color: white;
+}
+
+/* Video Lists */
 .video-list {
   display: flex;
+  flex-direction: column;
   gap: 15px;
   overflow-x: auto;
-  padding: 10px;
-  scroll-behavior: smooth;
-  background: white;
+  padding: 15px;
+  background: #252525;
   border-radius: 8px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.video-list::-webkit-scrollbar {
+  display: none;
 }
 
 .video-item {
@@ -41,18 +137,15 @@ h2, h3 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px;
-  border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .video-item video {
   width: 100%;
   border-radius: 5px;
+  background: black;
 }
 
-button {
+.video-item button {
   width: 100%;
   padding: 8px;
   margin-top: 8px;
@@ -65,45 +158,66 @@ button {
   transition: background 0.3s ease;
 }
 
-button:hover {
+.video-item button:hover {
   background-color: #4e46c9;
 }
 
-/* Trim Controls */
-.trim-controls {
+/* Fixed Bottom Timeline */
+.merging-queue {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 98%;
+  background: #181818;
+  padding: 15px;
+  border-top: 2px solid #3f3f3f;
+  box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: white;
-  padding: 15px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  z-index: 100;
+  overflow: hidden;
 }
 
-.trim-controls video {
-  width: 90%;
-  border-radius: 5px;
+
+.merging-queue h3 {
+  color: white;
 }
 
-.trim-controls button {
-  width: 50%;
+.merging-queue-header p {
+  margin-bottom: 0;
+  font-weight: bold;
+  font-size: 18px;
 }
 
-input[type="number"] {
-  width: 48%;
-  padding: 8px;
-  margin: 5px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
+.merging-queue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 0px 20px;
 }
 
-/* Merging Queue */
-.merging-queue {
-  background: white;
-  padding: 15px;
+.selected-video-list {
+  display: flex;
+  overflow-x: auto;
   border-radius: 8px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  overflow-y: hidden;
+  background: #252525;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  gap: 10px;
+  width: 100%;
+}
+
+.selected-video-list video {
+  width: 200px;
+  height: 120px;
+  border-radius: 5px;
+  margin: 10px;
+  object-fit: cover;
+  background: black;
 }
 
 /* Processed Video */
@@ -111,18 +225,25 @@ input[type="number"] {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: white;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
+  height: 100%;
+}
+
+.processed-video p {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
 }
 
 .processed-video video {
-  width: 70%;
+  width: 90%;
+  height: 250px;
   border-radius: 8px;
+  object-fit: cover;
+  background: black;
 }
 
+/* Download Link Button */
 .download-link-btn {
   display: inline-block;
   padding: 10px 20px;
@@ -142,29 +263,29 @@ input[type="number"] {
   color: white !important;
 }
 
-.selected-video-list {
-  display: flex;
-  overflow-x: auto;
-  padding: 10px;
-  border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-  gap: 20px !important;
-}
-
-.selected-video-list video {
-  width: 200px;
-  border-radius: 5px;
-  margin: 10px;
-  overflow-x: auto;
-}
-
+/* Message */
 .message {
   text-align: center;
   margin-top: 20px;
   font-size: 18px;
   font-weight: bold;
-  color: #333;
+  color: white;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .container {
+    /* flex-direction: column; */
+  }
+  
+  .left-side-container, .right-side-container, .right-right-container {
+    width: 100%;
+  }
+
+  .trim-controls video, .processed-video video {
+    width: 90%;
+    height: auto;
+  }
 }
 
 @media (max-width: 768px) {
@@ -173,6 +294,6 @@ input[type="number"] {
   }
 
   .selected-video-list {
-    overflow: scroll;
+    overflow-x: auto;
   }
 }

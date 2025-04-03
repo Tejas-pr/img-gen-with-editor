@@ -1,66 +1,91 @@
-<div class="container">
-  <h2>Video Editor</h2>
+<div class="video-editor-container">
+  <!-- top nav bar -->
+  <mat-toolbar color="primary" class="navbar">
+    <span class="logo">Video Editor</span>
 
-  <h2>Available Videos</h2>
-  <div class="video-list">
-    <div *ngFor="let video of videos" class="video-item">
-      <video [src]="video" controls></video>
-      <button (click)="addToQueue(video)">Add to Merge</button>
-      <button (click)="trimVideoBtn(video)">Trim</button>
-    </div>
-  </div>
+    <span class="spacer"></span>
 
-  <!-- Trim Video Controls (only shown when a video is selected) -->
-  <div *ngIf="selectedVideoUrl" class="trim-controls">
-    <h3>Trim Video</h3>
-    <video [src]="selectedVideoUrl" controls></video>
-
-    <div class="trim-inputs-container">
-      <label>Start Time (sec):</label>
-      <input type="number" #startTime min="0" />
-  
-      <label>End Time (sec):</label>
-      <input type="number" #endTime min="0" />
-    </div>
-
-    <button (click)="trimVideo(+startTime.value, +endTime.value)">
-      Trim Video
+    <button
+      mat-button
+      class="download-btn"
+      [disabled]="!mergedVideoUrl && !trimmedVideoUrl"
+    >
+      <a [href]="mergedVideoUrl || trimmedVideoUrl" download="output.mp4"
+        >Export</a
+      >
     </button>
-  </div>
+  </mat-toolbar>
 
-  <!-- Selected Videos for Merging -->
-  <div class="merging-queue">
-    <h3>Merging Queue</h3>
-    <div *ngIf="selectedVideos.length > 0" class="selected-video-list">
-      <div class="video-container">
+  <!-- bottom main content -->
+  <div class="container">
+    <!-- left side -->
+    <div class="left-side-container">
+      <p>Video pool</p>
+      <div class="video-list">
+        <div *ngFor="let video of videos" class="video-item">
+          <video [src]="video" controls></video>
+          <button (click)="addToQueue(video)">Add to Merge</button>
+          <button (click)="trimVideoBtn(video)">Trim</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- right side -->
+    <div class="right-side-container">
+      <!-- Trim Video Controls (only shown when a video is selected) -->
+      <!-- *ngIf="selectedVideoUrl" -->
+      <div class="trim-controls">
+        <video [src]="selectedVideoUrl" controls></video>
+
+        <div class="trim-inputs-container">
+          <label>Start Time (sec):</label>
+          <input type="number" #startTime min="0" />
+
+          <label>End Time (sec):</label>
+          <input type="number" #endTime min="0" />
+        </div>
+
+        <button mat-button class="download-btn" (click)="trimVideo(+startTime.value, +endTime.value)">
+          Trim Video
+        </button>
+      </div>
+
+      <!-- Selected Videos for Merging -->
+      <div class="merging-queue">
+        <div class="merging-queue-header">
+          <p>Timeline</p>
+          <!-- *ngIf="selectedVideos.length > 1" -->
+          <button mat-button class="download-btn" (click)="mergeVideos()">
+            Merge Videos
+          </button>
+        </div>
+        <div *ngIf="selectedVideos.length > 0" class="selected-video-list">
+          <div class="video-container">
+            <video
+              *ngFor="let video of selectedVideos"
+              [src]="getVideoUrl(video)"
+              controls
+            ></video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- right right -->
+    <div class="right-right-container">
+      <!-- Processed Video Preview -->
+      <!-- *ngIf="trimmedVideoUrl || mergedVideoUrl" -->
+      <div class="processed-video">
+        <p>Processed Video</p>
         <video
-          *ngFor="let video of selectedVideos"
-          [src]="getVideoUrl(video)"
+          #processedVideoPlayer
+          [src]="mergedVideoUrl || trimmedVideoUrl"
           controls
         ></video>
       </div>
-    </div>
-  
-    <button *ngIf="selectedVideos.length > 1" (click)="mergeVideos()">
-      Merge Videos
-    </button>
-  </div>
 
-  <!-- Processed Video Preview -->
-  <div *ngIf="trimmedVideoUrl || mergedVideoUrl" class="processed-video">
-    <h3>Processed Video</h3>
-    <video
-      #processedVideoPlayer
-      [src]="mergedVideoUrl || trimmedVideoUrl"
-      controls
-    ></video>
-    <div class="download-link-btn">
-      <a [href]="mergedVideoUrl || trimmedVideoUrl" download="output.mp4"
-        >Download Video</a
-      >
+      <!-- Status Message -->
+      <p class="message">{{ message }}</p>
     </div>
   </div>
-
-  <!-- Status Message -->
-  <p class="message">{{ message }}</p>
 </div>
