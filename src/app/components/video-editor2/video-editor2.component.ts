@@ -30,7 +30,11 @@ export class VideoEditor2Component implements OnInit {
     { name: "Video 7", src: "assets/video7.mp4" },
     { name: "Video 9", src: "assets/video9.mp4" },
     { name: "Video 10", src: "assets/video10.mp4" }
-  ];  
+  ];
+  
+  clearQueue() {
+    this.selectedVideos = [];
+  }
 
   onRangeChange(newRange: any) {
     this.sliderRange = newRange;
@@ -40,7 +44,8 @@ export class VideoEditor2Component implements OnInit {
     const video = event.target as HTMLVideoElement;
     this.maxDuration = Math.floor(video.duration);
     this.sliderRange = [0, this.maxDuration];
-  }   
+    this.cdr.detectChanges();
+  }
 
   getVideoUrl(video: string | File): string {
     if (typeof video === 'string') {
@@ -54,7 +59,6 @@ export class VideoEditor2Component implements OnInit {
     console.log(this.endTime);
     try {
       console.log("Selected video for trimming:", video);
-      
       // Fetch the video file from the URL
       const response = await fetch(video);
       const blob = await response.blob();
@@ -64,7 +68,7 @@ export class VideoEditor2Component implements OnInit {
   
       // Assign the file to selectedVideoFile
       this.selectedVideoFile = file;
-      this.selectedVideoUrl = video; // Update the preview URL
+      this.selectedVideoUrl = video;
   
       console.log("Selected video file:", this.selectedVideoFile);
     } catch (error) {

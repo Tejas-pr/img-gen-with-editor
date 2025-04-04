@@ -329,6 +329,16 @@ input[type="number"] {
   color: white;
 }
 
+.icon-buttons-div {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.icon-buttons-div mat-icon {
+  cursor: pointer;
+}
+
 @media (max-width: 1024px) {  
   .left-side-container, .right-side-container, .right-right-container {
     width: 100%;

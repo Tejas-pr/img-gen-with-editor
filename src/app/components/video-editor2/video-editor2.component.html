@@ -38,6 +38,7 @@
     <div class="right-side-container">
       <div class="trim-controls">
         <video
+          #videoPlayer
           [src]="selectedVideoUrl"
           controls
           (loadedmetadata)="onLoadedMetadata($event)"
@@ -72,9 +73,12 @@
         <div class="merging-queue-header">
           <p>Timeline</p>
           <!-- *ngIf="selectedVideos.length > 1" -->
-          <button mat-button class="download-btn" (click)="mergeVideos()">
-            Merge Videos
-          </button>
+          <div class="icon-buttons-div">
+            <button mat-button class="download-btn" (click)="mergeVideos()">
+              Merge Videos
+            </button>
+            <mat-icon (click)="clearQueue()">close</mat-icon>
+          </div>
         </div>
         <div *ngIf="selectedVideos.length > 0" class="selected-video-list">
           <div class="video-container">
