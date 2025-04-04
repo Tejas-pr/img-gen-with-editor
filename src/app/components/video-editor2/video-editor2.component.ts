@@ -29,7 +29,8 @@ export class VideoEditor2Component implements OnInit {
     { name: "Video 6", src: "assets/video6.mp4" },
     { name: "Video 7", src: "assets/video7.mp4" },
     { name: "Video 9", src: "assets/video9.mp4" },
-    { name: "Video 10", src: "assets/video10.mp4" }
+    { name: "Video 10", src: "assets/video10.mp4" },
+    { name: "Video 11", src: "assets/output.mp4" },
   ];
   
   clearQueue() {
@@ -191,6 +192,19 @@ export class VideoEditor2Component implements OnInit {
   }
 
   reloadPage() {
-    window.location.reload();
-  }  
+    // logic to add the output video to the pool when i click on the btn
+    if (this.trimmedVideoUrl || this.mergedVideoUrl) {
+      this.videos.unshift({
+        name: "Processed Video",
+        src: this.trimmedVideoUrl || this.mergedVideoUrl!,
+      });
+  
+      // Reset processed video URL
+      this.trimmedVideoUrl = null;
+      this.mergedVideoUrl = null;
+      this.message = '';
+  
+      this.cdr.detectChanges(); // Ensure UI updates
+    }
+  }
 }

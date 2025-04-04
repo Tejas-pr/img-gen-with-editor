@@ -250,6 +250,7 @@ input[type="number"] {
   align-items: center;
   text-align: center;
   height: 100%;
+  width: 100%;
 }
 
 .processed-video p {
