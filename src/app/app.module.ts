@@ -18,6 +18,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { VideoEditor2Component } from './components/video-editor2/video-editor2.component';
+import {MatSliderModule} from '@angular/material/slider';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +40,8 @@ import { VideoEditor2Component } from './components/video-editor2/video-editor2.
     MatProgressSpinnerModule,
     MatButtonToggleModule,
     FormsModule,
-    DragDropModule
+    DragDropModule,
+    MatSliderModule
   ],
   providers: [],
   bootstrap: [AppComponent],

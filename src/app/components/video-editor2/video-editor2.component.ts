@@ -14,6 +14,11 @@ export class VideoEditor2Component implements OnInit {
   selectedVideos: File[] = [];
   selectedVideoUrl: string | null = null;
   message: string = '';
+  startTime: number = 0;
+  endTime: number = 10;
+  maxDuration: number = 0;
+  sliderRange: [number, number] = [0, 10];
+  previousSliderRange: [number, number] = [0, 10];
 
   videos: string[] = [
     'assets/video1.mp4',
@@ -27,6 +32,31 @@ export class VideoEditor2Component implements OnInit {
     'assets/video10.mp4'
   ];
 
+  onStartThumbInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newStart = parseFloat(input.value);
+    this.sliderRange[0] = newStart;
+    console.log('Live Start Value:', newStart);
+  }
+  
+  onEndThumbInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newEnd = parseFloat(input.value);
+    this.sliderRange[1] = newEnd;
+    console.log('Live End Value:', newEnd);
+  }
+
+  onRangeChange(newRange: any) {
+    this.sliderRange = newRange;
+  }
+
+  onLoadedMetadata(event: Event) {
+    const video = event.target as HTMLVideoElement;
+    this.maxDuration = Math.floor(video.duration);
+    console.log("maxDuration", this.maxDuration);
+    this.sliderRange[1] = this.maxDuration;
+  }  
+
   getVideoUrl(video: string | File): string {
     if (typeof video === 'string') {
       return video;
@@ -35,6 +65,8 @@ export class VideoEditor2Component implements OnInit {
     }
   }
   async trimVideoBtn(video: string) {
+    console.log(this.startTime);
+    console.log(this.endTime);
     try {
       console.log("Selected video for trimming:", video);
       
@@ -130,9 +162,11 @@ export class VideoEditor2Component implements OnInit {
     }
   }
 
-  trimVideo(startTime: number, endTime: number) {
+  trimVideo() {
+    const [startTime, endTime] = this.sliderRange;
     console.log("trim called")
     console.log(this.selectedVideoFile);
+    this.endTime = endTime;
     if (!this.selectedVideoFile || !this.isFFmpegLoaded) {
       console.log('Please select a video and wait for FFmpeg to load.');
       this.message = 'Please select a video and wait for FFmpeg to load.';

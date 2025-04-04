@@ -35,17 +35,31 @@
       <!-- Trim Video Controls (only shown when a video is selected) -->
       <!-- *ngIf="selectedVideoUrl" -->
       <div class="trim-controls">
-        <video [src]="selectedVideoUrl" controls></video>
+        <!-- <video [src]="selectedVideoUrl" controls></video> -->
+        <video [src]="selectedVideoUrl" controls (loadedmetadata)="onLoadedMetadata($event)"></video>
 
-        <div class="trim-inputs-container">
-          <label>Start Time (sec):</label>
-          <input type="number" #startTime min="0" />
 
-          <label>End Time (sec):</label>
-          <input type="number" #endTime min="0" />
-        </div>
+        <div class="slider-wrapper">
+          <mat-slider
+            class="custom-range-slider"
+            [min]="0"
+            [max]="maxDuration"
+            [step]="1"
+            [(ngModel)]="sliderRange"
+            thumbLabel
+          >
+            <input matSliderStartThumb (input)="onStartThumbInput($event)" />
+            <input matSliderEndThumb (input)="onEndThumbInput($event)" />
+          </mat-slider>
+        
+          <!-- Custom Labels -->
+          <div class="thumb-labels">
+            <span class="start-label">Start: {{ sliderRange[0] }}s</span>
+            <span class="end-label">End: {{ sliderRange[1] }}s</span>
+          </div>
+        </div>        
 
-        <button mat-button class="download-btn" (click)="trimVideo(+startTime.value, +endTime.value)">
+        <button mat-button (click)="trimVideo()">
           Trim & Save
         </button>
       </div>
@@ -77,6 +91,7 @@
       <!-- *ngIf="trimmedVideoUrl || mergedVideoUrl" -->
       <div class="processed-video">
         <p>Processed Video</p>
+        <hr class="hr-line">
         <video
           *ngIf="trimmedVideoUrl || mergedVideoUrl"
           #processedVideoPlayer
