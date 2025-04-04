@@ -81,16 +81,10 @@
   background: #334296;
 }
 
-.icon-buttons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-top: 10px;
-}
-
 .icon-buttons mat-icon {
   cursor: pointer;
+  font-size: 21px;
+  text-align: center;
 }
 
 /* Titles */
@@ -134,37 +128,38 @@ input[type="number"] {
 /* Video Lists */
 .video-list {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
   overflow-x: auto;
-  padding: 15px;
+  padding: 1px;
 }
 
 .video-list::-webkit-scrollbar {
   display: none;
 }
 
+.icon-buttons {
+  display: relative;
+  top: 10;
+  width: 100%;
+  margin-top: 10px;
+}
+
 .video-item {
   flex: 0 0 auto;
-  width: 220px;
-  display: flex;
+  /* width: 220px;   */
+  display: block;
   flex-direction: column;
   align-items: center;
   background: #252525;
   border-radius: 10px;
-  padding: 8px;
+  /* padding: 8px; */
 }
 
 .video-item p {
   text-align: center;
   margin-bottom: 5px;
   font-size: 14px;
-}
-
-.video-item video {
-  width: 100%;
-  border-radius: 5px;
-  background: black;
 }
 
 .video-item button {
@@ -182,6 +177,53 @@ input[type="number"] {
 
 .video-item button:hover {
   background-color: #4e46c9;
+}
+
+
+.video-item {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #252525;
+  border-radius: 10px;
+  overflow: hidden; /* Ensure no overflow issues */
+}
+
+.video-item video {
+  width: 122px;
+  border-radius: 5px;
+  background: black;
+}
+
+/* Hide controls initially */
+.icon-buttons {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  padding: 5px 0px;
+  background: rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  z-index: 100;
+}
+.icon-buttons p {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 300;
+  margin-bottom: 0px;
+}
+
+/* Show controls when hovering */
+.video-item:hover .icon-buttons {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* Fixed Bottom Timeline */

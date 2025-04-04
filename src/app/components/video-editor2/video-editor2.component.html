@@ -22,16 +22,18 @@
     <div class="left-side-container">
       <p>Video Pool</p>
       <hr class="hr-line" />
+
       <div class="video-list">
         <div *ngFor="let video of videos" class="video-item">
-          <p>{{ video.name }}</p>
-          <video [src]="video.src" controls></video>
           <div class="icon-buttons">
-              <mat-icon (click)="trimVideoBtn(video.src)">content_cut</mat-icon>
-              <mat-icon (click)="addToQueue(video.src)">call_merge</mat-icon>
+            <mat-icon (click)="trimVideoBtn(video.src)">content_cut</mat-icon>
+            <p>{{ video.name }}</p>
+            <mat-icon (click)="addToQueue(video.src)">call_merge</mat-icon>
           </div>
+          <video [src]="video.src"></video>
         </div>
-      </div>
+      </div>      
+
     </div>
 
     <!-- right side -->
