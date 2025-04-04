@@ -20,12 +20,16 @@
   <div class="container">
     <!-- left side -->
     <div class="left-side-container">
-      <p>Video pool</p>
+      <p>Video Pool</p>
+      <hr class="hr-line" />
       <div class="video-list">
         <div *ngFor="let video of videos" class="video-item">
-          <video [src]="video" controls></video>
-          <button (click)="addToQueue(video)">Add to Merge</button>
-          <button (click)="trimVideoBtn(video)">Trim</button>
+          <p>{{ video.name }}</p>
+          <video [src]="video.src" controls></video>
+          <div class="icon-buttons">
+              <mat-icon (click)="trimVideoBtn(video.src)">content_cut</mat-icon>
+              <mat-icon (click)="addToQueue(video.src)">call_merge</mat-icon>
+          </div>
         </div>
       </div>
     </div>
@@ -40,16 +44,16 @@
         ></video>
         <div class="slider-wrapper">
           <mat-slider
-            class="custom-range-slider"
-            [min]="0"
-            [max]="maxDuration"
-            [step]="1"
-            [(ngModel)]="sliderRange"
-            thumbLabel
-          >
-            <input matSliderStartThumb (input)="onStartThumbInput($event)" />
-            <input matSliderEndThumb (input)="onEndThumbInput($event)" />
-          </mat-slider>
+          class="custom-range-slider"
+          [min]="0"
+          [max]="maxDuration"
+          [step]="1"
+          [(ngModel)]="sliderRange"
+          thumbLabel
+        >
+          <input matSliderStartThumb [(ngModel)]="sliderRange[0]" />
+          <input matSliderEndThumb [(ngModel)]="sliderRange[1]" />
+        </mat-slider>        
 
           <!-- Custom Labels -->
           <div class="thumb-labels">

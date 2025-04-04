@@ -81,6 +81,18 @@
   background: #334296;
 }
 
+.icon-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.icon-buttons mat-icon {
+  cursor: pointer;
+}
+
 /* Titles */
 h2, h3 {
   text-align: center;
@@ -126,8 +138,6 @@ input[type="number"] {
   gap: 15px;
   overflow-x: auto;
   padding: 15px;
-  background: #252525;
-  border-radius: 8px;
 }
 
 .video-list::-webkit-scrollbar {
@@ -140,6 +150,15 @@ input[type="number"] {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: #252525;
+  border-radius: 10px;
+  padding: 8px;
+}
+
+.video-item p {
+  text-align: center;
+  margin-bottom: 5px;
+  font-size: 14px;
 }
 
 .video-item video {

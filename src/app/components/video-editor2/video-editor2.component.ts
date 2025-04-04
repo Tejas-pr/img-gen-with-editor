@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-video-editor',
@@ -20,31 +20,17 @@ export class VideoEditor2Component implements OnInit {
   sliderRange: [number, number] = [0, 0];
   previousSliderRange: [number, number] = [0, 0];
 
-  videos: string[] = [
-    'assets/video1.mp4',
-    'assets/video2.mp4',
-    'assets/video3.mp4',
-    'assets/video4.mp4',
-    'assets/video5.mp4',
-    'assets/video6.mp4',
-    'assets/video7.mp4',
-    'assets/video9.mp4',
-    'assets/video10.mp4'
-  ];
-
-  onStartThumbInput(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const newStart = parseFloat(input.value);
-    this.sliderRange[0] = newStart;
-    console.log('Live Start Value:', newStart);
-  }
-  
-  onEndThumbInput(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const newEnd = parseFloat(input.value);
-    this.sliderRange[1] = newEnd;
-    console.log('Live End Value:', newEnd);
-  }
+  videos: { name: string; src: string }[] = [
+    { name: "Video 1", src: "assets/video1.mp4" },
+    { name: "Video 2", src: "assets/video2.mp4" },
+    { name: "Video 3", src: "assets/video3.mp4" },
+    { name: "Video 4", src: "assets/video4.mp4" },
+    { name: "Video 5", src: "assets/video5.mp4" },
+    { name: "Video 6", src: "assets/video6.mp4" },
+    { name: "Video 7", src: "assets/video7.mp4" },
+    { name: "Video 9", src: "assets/video9.mp4" },
+    { name: "Video 10", src: "assets/video10.mp4" }
+  ];  
 
   onRangeChange(newRange: any) {
     this.sliderRange = newRange;
@@ -53,9 +39,8 @@ export class VideoEditor2Component implements OnInit {
   onLoadedMetadata(event: Event) {
     const video = event.target as HTMLVideoElement;
     this.maxDuration = Math.floor(video.duration);
-    console.log("maxDuration", this.maxDuration);
-    this.sliderRange[1] = this.maxDuration;
-  }  
+    this.sliderRange = [0, this.maxDuration];
+  }   
 
   getVideoUrl(video: string | File): string {
     if (typeof video === 'string') {
@@ -111,7 +96,7 @@ export class VideoEditor2Component implements OnInit {
     }
   }  
 
-  constructor() {}
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     if (typeof Worker !== 'undefined') {
@@ -168,7 +153,6 @@ export class VideoEditor2Component implements OnInit {
     console.log(this.selectedVideoFile);
     this.endTime = endTime;
     if (!this.selectedVideoFile || !this.isFFmpegLoaded) {
-      console.log('Please select a video and wait for FFmpeg to load.');
       this.message = 'Please select a video and wait for FFmpeg to load.';
       return;
     }
@@ -184,8 +168,6 @@ export class VideoEditor2Component implements OnInit {
   }
 
   mergeVideos() {
-    console.log("selectedVideos", this.selectedVideos);
-    console.log("merge called")
     if (!this.isFFmpegLoaded) {
       this.message = 'Please wait for FFmpeg to load before merging videos.';
       return;
