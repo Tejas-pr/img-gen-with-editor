@@ -293,6 +293,10 @@ input[type="number"] {
   width: 100%;
 }
 
+.custom-range-slider {
+  width: 90%;
+}
+
 .thumb-labels {
   display: flex;
   justify-content: space-between;

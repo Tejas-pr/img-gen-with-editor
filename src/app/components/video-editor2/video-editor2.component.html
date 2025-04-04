@@ -32,13 +32,12 @@
 
     <!-- right side -->
     <div class="right-side-container">
-      <!-- Trim Video Controls (only shown when a video is selected) -->
-      <!-- *ngIf="selectedVideoUrl" -->
       <div class="trim-controls">
-        <!-- <video [src]="selectedVideoUrl" controls></video> -->
-        <video [src]="selectedVideoUrl" controls (loadedmetadata)="onLoadedMetadata($event)"></video>
-
-
+        <video
+          [src]="selectedVideoUrl"
+          controls
+          (loadedmetadata)="onLoadedMetadata($event)"
+        ></video>
         <div class="slider-wrapper">
           <mat-slider
             class="custom-range-slider"
@@ -51,15 +50,15 @@
             <input matSliderStartThumb (input)="onStartThumbInput($event)" />
             <input matSliderEndThumb (input)="onEndThumbInput($event)" />
           </mat-slider>
-        
+
           <!-- Custom Labels -->
           <div class="thumb-labels">
             <span class="start-label">Start: {{ sliderRange[0] }}s</span>
             <span class="end-label">End: {{ sliderRange[1] }}s</span>
           </div>
-        </div>        
+        </div>
 
-        <button mat-button (click)="trimVideo()">
+        <button mat-button class="download-btn" (click)="trimVideo()">
           Trim & Save
         </button>
       </div>
@@ -91,18 +90,23 @@
       <!-- *ngIf="trimmedVideoUrl || mergedVideoUrl" -->
       <div class="processed-video">
         <p>Processed Video</p>
-        <hr class="hr-line">
+        <hr class="hr-line" />
         <video
           *ngIf="trimmedVideoUrl || mergedVideoUrl"
           #processedVideoPlayer
           [src]="mergedVideoUrl || trimmedVideoUrl"
           controls
         ></video>
-              <!-- Status Message -->
-      <p class="message">{{ message }}</p>
-      <button *ngIf="trimmedVideoUrl || mergedVideoUrl" mat-button (click)="reloadPage()" class="download-btn">
-        New Project
-      </button>
+        <!-- Status Message -->
+        <p class="message">{{ message }}</p>
+        <button
+          *ngIf="trimmedVideoUrl || mergedVideoUrl"
+          mat-button
+          (click)="reloadPage()"
+          class="download-btn"
+        >
+          New Project
+        </button>
       </div>
     </div>
   </div>

@@ -17,8 +17,8 @@ export class VideoEditor2Component implements OnInit {
   startTime: number = 0;
   endTime: number = 10;
   maxDuration: number = 0;
-  sliderRange: [number, number] = [0, 10];
-  previousSliderRange: [number, number] = [0, 10];
+  sliderRange: [number, number] = [0, 0];
+  previousSliderRange: [number, number] = [0, 0];
 
   videos: string[] = [
     'assets/video1.mp4',
