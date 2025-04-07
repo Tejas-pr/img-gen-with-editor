@@ -1,7 +1,7 @@
 <div class="video-editor-container">
   <!-- top nav bar -->
   <mat-toolbar color="primary" class="navbar">
-    <span class="logo">Video Editor</span>
+    <span class="logo" (click)="openMainPage()">Video Editor</span>
 
     <span class="spacer"></span>
 
@@ -45,8 +45,9 @@
           controls
           (loadedmetadata)="onLoadedMetadata($event)"
         ></video>
-        <div class="slider-wrapper">
+        <div class="slider-wrapper" *ngIf="selectedVideoUrl && maxDuration">
           <mat-slider
+          *ngIf="selectedVideoUrl && maxDuration"
           class="custom-range-slider"
           [min]="0"
           [max]="maxDuration"
@@ -59,13 +60,13 @@
         </mat-slider>        
 
           <!-- Custom Labels -->
-          <div class="thumb-labels">
+          <div class="thumb-labels" >
             <span class="start-label">Start: {{ sliderRange[0] }}s</span>
             <span class="end-label">End: {{ sliderRange[1] }}s</span>
           </div>
         </div>
 
-        <button mat-button class="download-btn" (click)="trimVideo()">
+        <button mat-button class="download-btn" *ngIf="selectedVideoUrl && maxDuration" (click)="trimVideo()">
           Trim & Save
         </button>
       </div>

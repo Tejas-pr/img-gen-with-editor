@@ -15,6 +15,6 @@ export class NavbarComponent {
 
   constructor(private router: Router) {}
   openVideoEditor() {
-    this.router.navigate(['/']);
+    window.location.reload();
   }
 }

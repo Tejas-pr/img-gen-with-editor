@@ -28,6 +28,7 @@
 .left-side-container p {
   font-size: 18px;
   font-weight: bold;
+  /* color: #4f46e5; */
 }
 
 .right-side-container {
@@ -56,8 +57,13 @@
 }
 
 .logo {
-  font-size: 20px;
-  font-weight: bold;
+  font-weight: 500;
+  font-size: 24px;
+  color: #4f46e5;
+}
+
+.logo:hover {
+  cursor: pointer;
 }
 
 .spacer {
@@ -254,7 +260,8 @@ input[type="number"] {
 .merging-queue-header p {
   margin-bottom: 0;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 20px;
+  color: #4f46e5;
 }
 
 .merging-queue-header {
@@ -299,6 +306,7 @@ input[type="number"] {
   font-size: 18px;
   font-weight: bold;
   margin-top: 10px;
+  /* color: #4f46e5; */
 }
 
 .processed-video video {

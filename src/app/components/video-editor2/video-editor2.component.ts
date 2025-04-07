@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-video-editor',
   templateUrl: './video-editor2.component.html',
@@ -101,7 +101,10 @@ export class VideoEditor2Component implements OnInit {
     }
   }  
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private router: Router
+  ) {}  
 
   ngOnInit() {
     if (typeof Worker !== 'undefined') {
@@ -206,5 +209,10 @@ export class VideoEditor2Component implements OnInit {
   
       this.cdr.detectChanges(); // Ensure UI updates
     }
+  }
+
+  openMainPage() {
+    console.log("route to /");
+    this.router.navigate(['/']);
   }
 }
